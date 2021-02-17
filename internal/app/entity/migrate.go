@@ -7,6 +7,8 @@ func MigrateAllWithGORM(db *gorm.DB) error {
 		&CharacterState{},
 		&CharacterStat{},
 		&Character{},
+		&BattleCharacter{},
+		&BattleSession{},
 	)
 	if err != nil {
 		return err

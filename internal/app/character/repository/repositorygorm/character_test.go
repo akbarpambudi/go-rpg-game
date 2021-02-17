@@ -6,29 +6,21 @@ import (
 	"github.com/akbarpambudi/go-rpg-game/internal/app/character/repository/repositorygorm"
 	"github.com/akbarpambudi/go-rpg-game/internal/app/entity"
 	"github.com/akbarpambudi/go-rpg-game/internal/app/entity/character"
+	"github.com/akbarpambudi/go-rpg-game/internal/pkg/testkit"
 	"github.com/stretchr/testify/suite"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"testing"
 )
 
 type CharacterTestSuite struct {
-	suite.Suite
-	db  *gorm.DB
+	testkit.Gorm
 	sut *repositorygorm.Character
 }
 
 func (s *CharacterTestSuite) SetupTest() {
-	s.T().Log("Setup Test")
-	s.db, _ = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{
-		DisableForeignKeyConstraintWhenMigrating: true,
-	})
-	err := entity.MigrateAllWithGORM(s.db)
-	if err != nil {
-		s.T().Fatal(err)
-	}
+	s.Gorm.SetupTest()
 	s.sut = repositorygorm.NewCharacter(&repositorygorm.CharacterOptions{
-		DB: s.db,
+		DB: s.DB(),
 	})
 }
 
@@ -100,7 +92,7 @@ func (s *CharacterTestSuite) TestCallCreateOrUpdateToUpdateExistingEntity() {
 	}
 
 	//seed data
-	s.db.Create(&testEntity)
+	s.DB().Create(&testEntity)
 	//act
 	err := s.sut.CreateOrUpdate(ctx, &testEntity)
 	//assert
@@ -148,7 +140,7 @@ func (s CharacterTestSuite) TestCallLoadByIDToLoadEntityByID() {
 		Name: "Mozart Dragon",
 	}
 	//seed data
-	s.db.Create(&testEntity)
+	s.DB().Create(&testEntity)
 	//act
 	loadedEntity, err := s.sut.LoadByID(ctx, testEntity.ID)
 	//assert
@@ -206,7 +198,7 @@ func (s CharacterTestSuite) TestCallLoadManyToLoadEntitiesMatchesPredicate() {
 		},
 	}
 	//seed data
-	s.db.CreateInBatches(&testEntities, 2)
+	s.DB().CreateInBatches(&testEntities, 2)
 	//act
 	entities, err := s.sut.LoadMany(ctx, character.RaceEQ(character.RaceElf))
 	//assert
@@ -264,7 +256,7 @@ func (s CharacterTestSuite) TestCallRemoveByIDToRemoveEntityByID() {
 		},
 	}
 	//seed data
-	s.db.CreateInBatches(&testEntities, 2)
+	s.DB().CreateInBatches(&testEntities, 2)
 	//act
 	err := s.sut.RemoveByID(ctx, testEntities[0].ID)
 	//assert
@@ -273,7 +265,7 @@ func (s CharacterTestSuite) TestCallRemoveByIDToRemoveEntityByID() {
 	})
 	s.Run("RemoveTheEntity", func() {
 		removedEntity := entity.Character{}
-		err := s.db.First(&removedEntity, testEntities[0].ID).Error
+		err := s.DB().First(&removedEntity, testEntities[0].ID).Error
 		s.Assert().True(errors.Is(err, gorm.ErrRecordNotFound))
 	})
 }

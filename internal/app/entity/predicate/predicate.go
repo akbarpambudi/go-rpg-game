@@ -28,3 +28,26 @@ func (c CharacterQuery) FilledFields() []string {
 }
 
 type Character func() CharacterQuery
+
+
+
+type BattleSessionQuery struct {
+	ID   uint
+}
+
+func (c BattleSessionQuery) FilledFields() []string {
+	var filledFields []string
+	empty := CharacterQuery{}
+	diffs, err := libra.Compare(context.Background(), empty, c)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, diff := range diffs {
+		filledFields = append(filledFields, diff.Field)
+	}
+
+	return filledFields
+}
+
+type BattleSession func() BattleSessionQuery
