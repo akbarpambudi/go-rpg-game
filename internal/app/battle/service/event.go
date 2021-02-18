@@ -2,5 +2,6 @@ package service
 
 type BattleInitiatedEvent struct {
 	SessionID uint	`json:"sessionId"`
-	CharacterIDs []uint `json:"characterIds"`
+	LeftSideCharacterIDs []uint `json:"leftSideCharacterIds"`
+	RightSideCharacterIDs []uint `json:"rightSideCharacterIds"`
 }
