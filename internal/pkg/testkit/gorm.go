@@ -12,7 +12,7 @@ type Gorm struct {
 	db *gorm.DB
 }
 
-func (g *Gorm) SetupTest()  {
+func (g *Gorm) SetupTest() {
 	g.T().Log("Setup Test")
 	g.db, _ = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
