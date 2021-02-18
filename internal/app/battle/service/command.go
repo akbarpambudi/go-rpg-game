@@ -1,5 +1,6 @@
 package service
 
 type InitiateBattleCommand struct {
-	CharacterIDs []uint `json:"characterIds"`
+	LeftSideCharactersIDs []uint `json:"leftSideCharacterIds"`
+	RightSideCharactersIDs []uint `json:"rightSideCharacterIds"`
 }
