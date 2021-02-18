@@ -40,7 +40,7 @@ func (b Battle) LoadByID(ctx context.Context, id uint) (*entity.BattleSession, e
 		return nil, err
 	}
 
-	return &battleSess,nil
+	return &battleSess, nil
 }
 
 func (b Battle) LoadMany(ctx context.Context, predicate predicate.BattleSession) ([]*entity.BattleSession, error) {
@@ -56,10 +56,10 @@ func (b Battle) LoadMany(ctx context.Context, predicate predicate.BattleSession)
 		Error
 
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 
-	return sessions,nil
+	return sessions, nil
 }
 
 func (b Battle) RemoveByID(ctx context.Context, id uint) error {

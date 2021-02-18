@@ -89,6 +89,37 @@ func (s CharacterTestSuite) TestCallCharacterCreationHandlerToCreateNewCharacter
 		End()
 }
 
+
+
+func (s CharacterTestSuite) TestCallCharacterCreationHandlerToCreateNewCharacter2() {
+	s.mockServer.Post("/character").
+		Body(`
+			{
+				"race":1,
+				"name":"Elvin",
+				"stat":{
+					"baseMP":10,
+					"baseHP":20
+				},
+				"state":{
+					"currentHP":10,
+					"currentMP":10
+				}
+			}
+		`).
+		Expect(s.T()).
+		Status(http.StatusOK).
+		Assert(jsonpath.Chain().
+			NotEqual("$.metadata.id", float64(0)).
+			Present("$.name").
+			NotEqual("$.race", float64(0)).
+			NotEqual("$.stat.metadata.id", float64(0)).
+			NotEqual("$.state.metadata.id", float64(0)).
+			End(),
+		).
+		End()
+}
+
 func TestRunCharacterTestSuite(t *testing.T) {
 	suite.Run(t, new(CharacterTestSuite))
 }

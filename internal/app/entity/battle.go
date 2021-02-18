@@ -6,13 +6,13 @@ type BattleSide int
 
 type BattleCharacter struct {
 	gorm.Model
-	CharacterID uint
+	CharacterID     uint
 	BattleSessionID uint
-	MaxMP int
-	MP int
-	HP int
-	MaxHP int
-	Side BattleSide
+	MaxMP           int
+	MP              int
+	HP              int
+	MaxHP           int
+	Side            BattleSide
 }
 
 type BattleSession struct {

@@ -29,10 +29,8 @@ func (c CharacterQuery) FilledFields() []string {
 
 type Character func() CharacterQuery
 
-
-
 type BattleSessionQuery struct {
-	ID   uint
+	ID uint
 }
 
 func (c BattleSessionQuery) FilledFields() []string {

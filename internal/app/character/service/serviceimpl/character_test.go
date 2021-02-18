@@ -58,10 +58,10 @@ func (s *CharacterTestSuite) TestCallCreateToCreateCharacterShouldBeSuccess() {
 			Intelligence: command.Stat.Intelligence,
 		},
 		State: entity.CharacterState{
-			CurrentMP:   command.State.CurrentMP,
-			CurrentHP:   command.State.CurrentHP,
+			CurrentMP: command.State.CurrentMP,
+			CurrentHP: command.State.CurrentHP,
 		},
-		Name:  command.Name,
+		Name: command.Name,
 	}
 	s.mockCharacterRepository.EXPECT().CreateOrUpdate(gomock.Eq(ctx), gomock.Eq(&expectedEntity)).Return(nil)
 	//act
